@@ -10,7 +10,7 @@ app.use(cors());
 // mongodb://localhost:27017/Podcasts
 
 mongoose
-  .connect(process.env.MONGO_URI, {
+  .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
