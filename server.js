@@ -6,8 +6,11 @@ dotenv.config();
 const app = express();
 app.use(cors());
 
+// process.env.MONGO_URI
+// mongodb://localhost:27017/Podcasts
+
 mongoose
-  .connect("mongodb://localhost:27017/Podcasts", {
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
