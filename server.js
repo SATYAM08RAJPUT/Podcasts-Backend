@@ -1,14 +1,18 @@
 import express from "express";
 import mongoose from "mongoose";
-const app = express();
 import cors from "cors";
-
+import dotenv from "dotenv";
+dotenv.config();
+const app = express();
 app.use(cors());
 
-mongoose.connect("mongodb://localhost:27017/Podcasts", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose
+  .connect("mongodb://localhost:27017/Podcasts", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 const podcastSchema = new mongoose.Schema({
   id: Number,
@@ -26,7 +30,6 @@ const webbyAwards = new mongoose.Schema({
 });
 
 const PodcastTreding = mongoose.model("trends", podcastSchema);
-
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
 
 app.get("/api/trending", async (req, res) => {
@@ -63,6 +66,7 @@ app.get("/api/webbyawards", async (req, res) => {
     res.status(500).send("Error fetching webbyAwards");
   }
 });
-app.listen(6065, () => {
-  console.log("Server is running on port 6065");
+const PORT = process.env.PORT || 6065;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
