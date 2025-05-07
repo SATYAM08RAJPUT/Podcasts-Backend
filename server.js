@@ -130,10 +130,42 @@ const featuredSchema = new mongoose.Schema({
 
 const Featured = mongoose.model("Featured", featuredSchema);
 
+const RajShamiouters = new mongoose.Schema(
+  {
+    id: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    videoUrlId: {
+      type: String,
+      required: true,
+    },
+    youtubeUrl: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
 const NewReleaseData = mongoose.model("newreleasecarouseldatas", webbyAwards);
+const RajShamiOuter = mongoose.model("rajshamaniouters", RajShamiouters);
 
 app.get("/api/trending", async (req, res) => {
   try {
@@ -184,6 +216,17 @@ app.get("/api/sidebar", async (req, res) => {
 app.get("/api/NewReleaseCarouselData", async (req, res) => {
   try {
     const podcasts = await NewReleaseData.find();
+    console.log(podcasts);
+    res.json(podcasts);
+  } catch (err) {
+    console.error("Error fetching podcasts:", err);
+    res.status(500).send("Error fetching SidebarItem");
+  }
+});
+
+app.get("/api/rajShamiouter", async (req, res) => {
+  try {
+    const podcasts = await RajShamiOuter.find();
     console.log(podcasts);
     res.json(podcasts);
   } catch (err) {
