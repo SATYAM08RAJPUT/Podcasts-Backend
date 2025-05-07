@@ -92,9 +92,48 @@ const sidebarItemSchema = new mongoose.Schema({
   },
 });
 
+const featuredSchema = new mongoose.Schema({
+  id: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+  linkTitle: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  subTitle: {
+    type: String,
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+  videoUrlId: {
+    type: String,
+    required: true,
+  },
+  youtubeUrl: {
+    type: String,
+    required: true,
+  },
+});
+
+const Featured = mongoose.model("Featured", featuredSchema);
+
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
+const NewReleaseData = mongoose.model("newReleaseCarouselDatas", webbyAwards);
 
 app.get("/api/trending", async (req, res) => {
   try {
@@ -134,6 +173,17 @@ app.get("/api/webbyawards", async (req, res) => {
 app.get("/api/sidebar", async (req, res) => {
   try {
     const podcasts = await SidebarItem.find();
+    console.log(podcasts);
+    res.json(podcasts);
+  } catch (err) {
+    console.error("Error fetching podcasts:", err);
+    res.status(500).send("Error fetching SidebarItem");
+  }
+});
+
+app.get("/api/NewReleaseCarouselData", async (req, res) => {
+  try {
+    const podcasts = await NewReleaseData.find();
     console.log(podcasts);
     res.json(podcasts);
   } catch (err) {
