@@ -11,13 +11,40 @@ mongoose
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-const podcastSchema = new mongoose.Schema({
-  id: Number,
-  sr: Number,
-  image: String,
-  title: String,
-  publisher: String,
-});
+const podcastSchema = new mongoose.Schema(
+  {
+    id: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    sr: {
+      type: Number,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    publisher: {
+      type: String,
+      required: true,
+    },
+    videoUrlId: {
+      type: String,
+      default: "",
+    },
+    youtubeUrl: {
+      type: String,
+      default: "",
+    },
+  },
+  { timestamps: true }
+);
 
 const webbyAwards = new mongoose.Schema({
   id: Number,
