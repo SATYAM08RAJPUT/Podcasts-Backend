@@ -47,10 +47,29 @@ const podcastSchema = new mongoose.Schema(
 );
 
 const webbyAwards = new mongoose.Schema({
-  id: Number,
-  title: String,
-  publisher: String,
-  image: String,
+  id: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  publisher: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+  videoUrlId: {
+    type: String,
+  },
+  youtubeUrl: {
+    type: String,
+  },
 });
 
 const sidebarItemSchema = new mongoose.Schema({
