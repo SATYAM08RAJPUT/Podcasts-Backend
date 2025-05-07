@@ -133,7 +133,7 @@ const Featured = mongoose.model("Featured", featuredSchema);
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
-const NewReleaseData = mongoose.model("newReleaseCarouselDatas", webbyAwards);
+const NewReleaseData = mongoose.model("newreleasecarouseldatas", webbyAwards);
 
 app.get("/api/trending", async (req, res) => {
   try {
