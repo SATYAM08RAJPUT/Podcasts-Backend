@@ -29,6 +29,27 @@ const webbyAwards = new mongoose.Schema({
   image: String,
 });
 
+const sidebarItemSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  icon: {
+    type: String,
+    required: true,
+  },
+  label: {
+    type: String,
+    required: true,
+  },
+  path: {
+    type: String,
+    required: true,
+  },
+});
+
+const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
 
@@ -66,6 +87,18 @@ app.get("/api/webbyawards", async (req, res) => {
     res.status(500).send("Error fetching webbyAwards");
   }
 });
+
+app.get("/api/sidebar", async (req, res) => {
+  try {
+    const podcasts = await SidebarItem.find();
+    console.log(podcasts);
+    res.json(podcasts);
+  } catch (err) {
+    console.error("Error fetching podcasts:", err);
+    res.status(500).send("Error fetching SidebarItem");
+  }
+});
+
 const PORT = process.env.PORT || 6065;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
