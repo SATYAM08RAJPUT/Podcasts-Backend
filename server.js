@@ -381,7 +381,7 @@ const Ranveerallahbadiaouters = new mongoose.Schema(
   }
 );
 
-const ReLivingsingleouters = new mongoose.Schema({
+const Guestcuratorcards = new mongoose.Schema({
   id: {
     type: Number,
     required: true,
@@ -426,8 +426,9 @@ const Ranveerallahbadiaouter = mongoose.model(
 );
 const ReLivingsingleouter = mongoose.model(
   "relivingsingleouters",
-  ReLivingsingleouters
+  Ranveerallahbadiaouters
 );
+const GuestCuratorCard = mongoose.model("guestcuratorcards", Guestcuratorcards);
 
 app.get("/api/trending", async (req, res) => {
   try {
@@ -584,6 +585,18 @@ app.get("/api/reLivingsingleouters", async (req, res) => {
     res.status(500).send("Error fetching SidebarItem");
   }
 });
+
+app.get("/api/guestcuratorcards", async (req, res) => {
+  try {
+    const podcasts = await GuestCuratorCard.find();
+    console.log(podcasts);
+    res.json(podcasts);
+  } catch (err) {
+    console.error("Error fetching podcasts:", err);
+    res.status(500).send("Error fetching SidebarItem");
+  }
+});
+
 const PORT = process.env.PORT || 6065;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
