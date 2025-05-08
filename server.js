@@ -266,6 +266,29 @@ const DiscoverCarousel = new mongoose.Schema(
   }
 );
 
+const SubCategorySchema = new mongoose.Schema({
+  id: {
+    type: Number,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+});
+
+const CategorySchema = new mongoose.Schema({
+  id: {
+    type: Number,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  subTitle: [SubCategorySchema],
+});
+
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
@@ -274,6 +297,7 @@ const RajShamiOuter = mongoose.model("rajshamaniouters", RajShamiouters);
 const UnderTwentyMin = mongoose.model("under20mins", Under20Mins);
 const PodCastStart = mongoose.model("podcaststarteds", PodcastStarted);
 const DisCoverCarousel = mongoose.model("discovercarousels", DiscoverCarousel);
+const Category = mongoose.model("discoverbtns", CategorySchema);
 
 app.get("/api/trending", async (req, res) => {
   try {
@@ -368,6 +392,17 @@ app.get("/api/podcastStarted", async (req, res) => {
 app.get("/api/discoverCarousel", async (req, res) => {
   try {
     const podcasts = await DisCoverCarousel.find();
+    console.log(podcasts);
+    res.json(podcasts);
+  } catch (err) {
+    console.error("Error fetching podcasts:", err);
+    res.status(500).send("Error fetching SidebarItem");
+  }
+});
+
+app.get("/api/discoverBtn", async (req, res) => {
+  try {
+    const podcasts = await Category.find();
     console.log(podcasts);
     res.json(podcasts);
   } catch (err) {
