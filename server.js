@@ -381,6 +381,34 @@ const Ranveerallahbadiaouters = new mongoose.Schema(
   }
 );
 
+const ReLivingsingleouters = new mongoose.Schema({
+  id: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+  videoUrlId: {
+    type: String,
+    required: true,
+  },
+  youtubeUrl: {
+    type: String,
+    required: true,
+  },
+});
+
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
@@ -395,6 +423,10 @@ const BhartiTvInnrers = mongoose.model("bhartitvinners", BharthiTvInner);
 const Ranveerallahbadiaouter = mongoose.model(
   "ranveerallahbadiaouters",
   Ranveerallahbadiaouters
+);
+const ReLivingsingleouter = mongoose.model(
+  "relivingsingleouters",
+  ReLivingsingleouters
 );
 
 app.get("/api/trending", async (req, res) => {
@@ -542,6 +574,16 @@ app.get("/api/ranveerallahbadiaouter", async (req, res) => {
   }
 });
 
+app.get("/api/reLivingsingleouters", async (req, res) => {
+  try {
+    const podcasts = await ReLivingsingleouter.find();
+    console.log(podcasts);
+    res.json(podcasts);
+  } catch (err) {
+    console.error("Error fetching podcasts:", err);
+    res.status(500).send("Error fetching SidebarItem");
+  }
+});
 const PORT = process.env.PORT || 6065;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
