@@ -289,6 +289,37 @@ const CategorySchema = new mongoose.Schema({
   subTitle: [SubCategorySchema],
 });
 
+const BharthiTvOuter = new mongoose.Schema(
+  {
+    id: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    videoUrlId: {
+      type: String,
+      required: true,
+    },
+    youtubeUrl: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
@@ -298,6 +329,7 @@ const UnderTwentyMin = mongoose.model("under20mins", Under20Mins);
 const PodCastStart = mongoose.model("podcaststarteds", PodcastStarted);
 const DisCoverCarousel = mongoose.model("discovercarousels", DiscoverCarousel);
 const Category = mongoose.model("discoverbtns", CategorySchema);
+const BhartiTvOuters = mongoose.model("bhartitvouters", BharthiTvOuter);
 
 app.get("/api/trending", async (req, res) => {
   try {
@@ -403,6 +435,17 @@ app.get("/api/discoverCarousel", async (req, res) => {
 app.get("/api/discoverBtn", async (req, res) => {
   try {
     const podcasts = await Category.find();
+    console.log(podcasts);
+    res.json(podcasts);
+  } catch (err) {
+    console.error("Error fetching podcasts:", err);
+    res.status(500).send("Error fetching SidebarItem");
+  }
+});
+
+app.get("/api/bhartitvouter", async (req, res) => {
+  try {
+    const podcasts = await BhartiTvOuters.find();
     console.log(podcasts);
     res.json(podcasts);
   } catch (err) {
