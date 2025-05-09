@@ -622,6 +622,21 @@ const PodcastStaredKitInners = new mongoose.Schema(
   { timestamps: true }
 );
 
+const LogoSchemas = new mongoose.Schema(
+  {
+    id: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
@@ -666,6 +681,8 @@ const PodcastStaredKitInner = mongoose.model(
   "podcaststaredkitinners",
   PodcastStaredKitInners
 );
+
+const LogoSchema = mongoose.model("logos", LogoSchemas);
 
 app.get("/api/trending", async (req, res) => {
   try {
@@ -903,6 +920,17 @@ app.get("/api/under20mmininners", async (req, res) => {
 app.get("/api/podcaststaredkitinners", async (req, res) => {
   try {
     const podcasts = await PodcastStaredKitInner.find();
+    console.log(podcasts);
+    res.json(podcasts);
+  } catch (err) {
+    console.error("Error fetching podcasts:", err);
+    res.status(500).send("Error fetching SidebarItem");
+  }
+});
+
+app.get("/api/logo", async (req, res) => {
+  try {
+    const podcasts = await LogoSchema.find();
     console.log(podcasts);
     res.json(podcasts);
   } catch (err) {
