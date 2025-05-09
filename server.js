@@ -637,6 +637,41 @@ const LogoSchemas = new mongoose.Schema(
   { timestamps: true }
 );
 
+const PodcastAllCategorys = new mongoose.Schema(
+  {
+    id: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    publisher: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    videoUrlId: {
+      type: String,
+      required: true,
+    },
+    youtubeUrl: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
@@ -683,6 +718,11 @@ const PodcastStaredKitInner = mongoose.model(
 );
 
 const LogoSchema = mongoose.model("logos", LogoSchemas);
+
+const PodcastAllCategory = mongoose.model(
+  "podcastallcategories",
+  PodcastAllCategorys
+);
 
 app.get("/api/trending", async (req, res) => {
   try {
@@ -936,6 +976,26 @@ app.get("/api/logo", async (req, res) => {
   } catch (err) {
     console.error("Error fetching podcasts:", err);
     res.status(500).send("Error fetching SidebarItem");
+  }
+});
+
+app.get("/api/podcastallcategory", async (req, res) => {
+  try {
+    const podcasts = await PodcastAllCategory.find();
+    console.log(podcasts);
+    res.json(podcasts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/api/podcastallcategory/category/:category", async (req, res) => {
+  const category = req.params.category;
+  try {
+    const podcasts = await PodcastAllCategory.find({ category: category });
+    res.status(200).json(podcasts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
