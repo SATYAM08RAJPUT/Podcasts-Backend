@@ -999,6 +999,19 @@ app.get("/api/podcastallcategory/category/:category", async (req, res) => {
   }
 });
 
+app.get("/api/podcastallcategory/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const podcast = await PodcastAllCategory.findOne({ id: id });
+    if (!podcast) {
+      return res.status(404).json({ message: "Podcast not found" });
+    }
+    res.status(200).json(podcast);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 const PORT = process.env.PORT || 6065;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
