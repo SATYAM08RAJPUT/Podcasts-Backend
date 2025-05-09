@@ -591,6 +591,37 @@ const Under20mmininners = new mongoose.Schema(
   { timestamps: true }
 );
 
+const PodcastStaredKitInners = new mongoose.Schema(
+  {
+    id: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    publisher: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    videoUrlId: {
+      type: String,
+      default: "",
+    },
+    youtubeUrl: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
@@ -630,6 +661,11 @@ const Webbyawardwinnerinner = mongoose.model(
 );
 
 const Under20mmininner = mongoose.model("under20mmininners", Under20mmininners);
+
+const PodcastStaredKitInner = mongoose.model(
+  "podcaststaredkitinners",
+  PodcastStaredKitInners
+);
 
 app.get("/api/trending", async (req, res) => {
   try {
@@ -856,6 +892,17 @@ app.get("/api/webbyawardwinnerinners", async (req, res) => {
 app.get("/api/under20mmininners", async (req, res) => {
   try {
     const podcasts = await Under20mmininner.find();
+    console.log(podcasts);
+    res.json(podcasts);
+  } catch (err) {
+    console.error("Error fetching podcasts:", err);
+    res.status(500).send("Error fetching SidebarItem");
+  }
+});
+
+app.get("/api/podcaststaredkitinners", async (req, res) => {
+  try {
+    const podcasts = await PodcastStaredKitInner.find();
     console.log(podcasts);
     res.json(podcasts);
   } catch (err) {
