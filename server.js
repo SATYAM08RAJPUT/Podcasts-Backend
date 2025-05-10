@@ -979,18 +979,61 @@ app.get("/api/logo", async (req, res) => {
   }
 });
 
+// app.get("/api/podcastallcategory", async (req, res) => {
+//   try {
+//     const podcasts = await PodcastAllCategory.find();
+//     console.log(podcasts);
+//     res.json(podcasts);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
+
+// app.get("/api/podcastallcategory/category/:category", async (req, res) => {
+//   const category = req.params.category;
+//   try {
+//     const podcasts = await PodcastAllCategory.find({ category: category });
+//     res.status(200).json(podcasts);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
+
+// API route to fetch all podcasts
+
 app.get("/api/podcastallcategory", async (req, res) => {
+  const { category, title, author } = req.query; // Extract query params
+
+  let filter = {}; // Initialize filter object
+
+  if (category) {
+    filter.category = category; // Add category filter if provided
+  }
+
+  if (title) {
+    filter.title = { $regex: title, $options: "i" }; // Case-insensitive search for title
+  }
+
+  if (author) {
+    filter.author = { $regex: author, $options: "i" }; // Case-insensitive search for author
+  }
+
   try {
-    const podcasts = await PodcastAllCategory.find();
-    console.log(podcasts);
-    res.json(podcasts);
+    const podcasts = await PodcastAllCategory.find(filter);
+    res.status(200).json(podcasts);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-app.get("/api/podcastallcategory/category/:category", async (req, res) => {
-  const category = req.params.category;
+// API route to fetch podcasts by category
+app.get("/api/podcastallcategory/category", async (req, res) => {
+  const category = req.query.category; // Read from query param
+
+  if (!category) {
+    return res.status(400).json({ message: "Category is required" });
+  }
+
   try {
     const podcasts = await PodcastAllCategory.find({ category: category });
     res.status(200).json(podcasts);
