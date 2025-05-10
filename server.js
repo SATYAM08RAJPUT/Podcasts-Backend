@@ -979,43 +979,21 @@ app.get("/api/logo", async (req, res) => {
   }
 });
 
-// app.get("/api/podcastallcategory", async (req, res) => {
-//   try {
-//     const podcasts = await PodcastAllCategory.find();
-//     console.log(podcasts);
-//     res.json(podcasts);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// });
-
-// app.get("/api/podcastallcategory/category/:category", async (req, res) => {
-//   const category = req.params.category;
-//   try {
-//     const podcasts = await PodcastAllCategory.find({ category: category });
-//     res.status(200).json(podcasts);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// });
-
-// API route to fetch all podcasts
-
 app.get("/api/podcastallcategory", async (req, res) => {
-  const { category, title, author } = req.query; // Extract query params
+  const { category, title, author } = req.query;
 
-  let filter = {}; // Initialize filter object
+  let filter = {};
 
   if (category) {
-    filter.category = category; // Add category filter if provided
+    filter.category = category;
   }
 
   if (title) {
-    filter.title = { $regex: title, $options: "i" }; // Case-insensitive search for title
+    filter.title = { $regex: title, $options: "i" };
   }
 
   if (author) {
-    filter.author = { $regex: author, $options: "i" }; // Case-insensitive search for author
+    filter.author = { $regex: author, $options: "i" };
   }
 
   try {
@@ -1026,10 +1004,8 @@ app.get("/api/podcastallcategory", async (req, res) => {
   }
 });
 
-// API route to fetch podcasts by category
 app.get("/api/podcastallcategory/category", async (req, res) => {
-  const category = req.query.category; // Read from query param
-
+  const category = req.query.category;
   if (!category) {
     return res.status(400).json({ message: "Category is required" });
   }
