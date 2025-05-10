@@ -672,6 +672,18 @@ const PodcastAllCategorys = new mongoose.Schema(
   { timestamps: true }
 );
 
+const SideBarItemSchemas = new mongoose.Schema({
+  title: String,
+  description: String,
+  category: String,
+  options: [
+    {
+      option: String,
+      action: String,
+    },
+  ],
+});
+
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
@@ -723,6 +735,8 @@ const PodcastAllCategory = mongoose.model(
   "podcastallcategories",
   PodcastAllCategorys
 );
+
+const SideBarItemSchema = mongoose.model("sidebaritems", SideBarItemSchemas);
 
 app.get("/api/trending", async (req, res) => {
   try {
@@ -1026,6 +1040,37 @@ app.get("/api/podcastallcategory/:id", async (req, res) => {
       return res.status(404).json({ message: "Podcast not found" });
     }
     res.status(200).json(podcast);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/api/sidebaritem", async (req, res) => {
+  try {
+    const allData = await SideBarItemSchema.find();
+    res.json(allData);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/api/sidebaritem/category", async (req, res) => {
+  const category = req.query.category;
+
+  if (!category) {
+    return res.status(400).json({ message: "Category is required" });
+  }
+
+  try {
+    const items = await SideBarItemSchema.find({ category: category });
+
+    if (items.length === 0) {
+      return res
+        .status(404)
+        .json({ message: `No items found for category: ${category}` });
+    }
+
+    res.json(items);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
