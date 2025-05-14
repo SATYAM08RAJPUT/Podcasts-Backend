@@ -686,7 +686,7 @@ const SideBarItemSchemas = new mongoose.Schema({
 
 podcastSchema.index({ title: "text", publisher: "text" });
 webbyAwards.index({ title: "text", publisher: "text" });
-
+RajShamiouters.index({ title: "text" });
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
@@ -751,7 +751,15 @@ const searchPodcasts = async (query) => {
       $text: { $search: query },
     });
 
-    const combinedResults = [...podcastResults, ...webbyAwardsResults];
+    const rajshamiouterResults = await RajShamiOuter.find({
+      $text: { $search: query },
+    });
+
+    const combinedResults = [
+      ...podcastResults,
+      ...webbyAwardsResults,
+      ...rajshamiouterResults,
+    ];
     return combinedResults;
   } catch (error) {
     console.error("Error searching:", error);
