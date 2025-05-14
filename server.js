@@ -692,8 +692,9 @@ DiscoverCarousel.index({ title: "text", subTitle: "text" });
 BharthiTvOuter.index({ title: "text", content: "text" });
 BharthiTvInner.index({ title: "text", content: "text" });
 Ranveerallahbadiainners.index({ title: "text", content: "text" });
-
+Ranveerallahbadiaouters.index({ title: "text", content: "text" });
 RajShamiouters.index({ title: "text" });
+
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
@@ -786,6 +787,10 @@ const searchPodcasts = async (query) => {
       $text: { $search: query },
     });
 
+    const ranveerallahbadiaoutersResults = await Ranveerallahbadiaouter.find({
+      $text: { $search: query },
+    });
+
     const combinedResults = [
       ...podcastResults,
       ...webbyAwardsResults,
@@ -796,6 +801,7 @@ const searchPodcasts = async (query) => {
       ...bharthiTvOuterResults,
       ...bharthiTvinnersResults,
       ...ranveerallahbadiainnersResults,
+      ...ranveerallahbadiaoutersResults,
     ];
     return combinedResults;
   } catch (error) {
