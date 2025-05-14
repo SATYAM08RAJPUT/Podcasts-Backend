@@ -688,6 +688,7 @@ podcastSchema.index({ title: "text", publisher: "text" });
 webbyAwards.index({ title: "text", publisher: "text" });
 Under20Mins.index({ title: "text", publisher: "text" });
 PodcastStarted.index({ title: "text", publisher: "text" });
+DiscoverCarousel.index({ title: "text", subTitle: "text" });
 
 RajShamiouters.index({ title: "text" });
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
@@ -766,12 +767,17 @@ const searchPodcasts = async (query) => {
       $text: { $search: query },
     });
 
+    const disCoverCarouselResults = await DisCoverCarousel.find({
+      $text: { $search: query },
+    });
+
     const combinedResults = [
       ...podcastResults,
       ...webbyAwardsResults,
       ...rajshamiouterResults,
       ...underTwentyMinResults,
       ...podcastStartResults,
+      ...disCoverCarouselResults,
     ];
     return combinedResults;
   } catch (error) {
