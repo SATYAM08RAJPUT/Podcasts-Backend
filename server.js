@@ -684,6 +684,9 @@ const SideBarItemSchemas = new mongoose.Schema({
   ],
 });
 
+podcastSchema.index({ title: "text", publisher: "text" });
+webbyAwards.index({ title: "text", publisher: "text" });
+
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
 const Webbyawards = mongoose.model("webbyawards", webbyAwards);
@@ -737,6 +740,40 @@ const PodcastAllCategory = mongoose.model(
 );
 
 const SideBarItemSchema = mongoose.model("sidebaritems", SideBarItemSchemas);
+
+const searchPodcasts = async (query) => {
+  try {
+    const podcastResults = await PodcastTreding.find({
+      $text: { $search: query },
+    });
+
+    const webbyAwardsResults = await Webbyawards.find({
+      $text: { $search: query },
+    });
+
+    const combinedResults = [...podcastResults, ...webbyAwardsResults];
+    return combinedResults;
+  } catch (error) {
+    console.error("Error searching:", error);
+    return [];
+  }
+};
+
+app.get("/api/search/podcasts", async (req, res) => {
+  const { q } = req.query;
+
+  if (!q) {
+    return res.status(400).json({ error: "Search query (q) is required" });
+  }
+
+  try {
+    const results = await searchPodcasts(q);
+    res.json(results);
+  } catch (error) {
+    console.error("Search error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 app.get("/api/trending", async (req, res) => {
   try {
