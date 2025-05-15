@@ -699,6 +699,7 @@ Discovertrendinginners.index({ title: "text", publisher: "text" });
 Webbyawardwinnerinners.index({ title: "text", publisher: "text" });
 Under20mmininners.index({ title: "text", publisher: "text" });
 PodcastStaredKitInners.index({ title: "text", publisher: "text" });
+PodcastAllCategorys.index({ title: "text", publisher: "text" });
 
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
@@ -816,6 +817,9 @@ const searchPodcasts = async (query) => {
       $text: { $search: query },
     });
 
+    const podcastAllCategoryResults = await PodcastAllCategory.find({
+      $text: { $search: query },
+    });
     const combinedResults = [
       ...podcastResults,
       ...webbyAwardsResults,
@@ -832,6 +836,7 @@ const searchPodcasts = async (query) => {
       ...webbyawardwinnerinnerResults,
       ...under20mmininnerResults,
       ...podcastStaredKitInnerResults,
+      ...podcastAllCategoryResults,
     ];
     console.log("combine Data:-", combinedResults);
     return combinedResults;
