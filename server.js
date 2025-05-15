@@ -695,6 +695,7 @@ Ranveerallahbadiainners.index({ title: "text", content: "text" });
 Ranveerallahbadiaouters.index({ title: "text", content: "text" });
 RajShamiouters.index({ title: "text" });
 Rajshamaninners.index({ title: "text", content: "text" });
+Discovertrendinginners.index({ title: "text", publisher: "text" });
 
 const SidebarItem = mongoose.model("Sidebars", sidebarItemSchema);
 const PodcastTreding = mongoose.model("trends", podcastSchema);
@@ -796,6 +797,10 @@ const searchPodcasts = async (query) => {
       $text: { $search: query },
     });
 
+    const discovertrendinginnersResults = await Discovertrendinginner.find({
+      $text: { $search: query },
+    });
+
     const combinedResults = [
       ...podcastResults,
       ...webbyAwardsResults,
@@ -808,7 +813,9 @@ const searchPodcasts = async (query) => {
       ...ranveerallahbadiainnersResults,
       ...ranveerallahbadiaoutersResults,
       ...rajShamiInnersResults,
+      ...discovertrendinginnersResults,
     ];
+    console.log("combine Data:-", combinedResults);
     return combinedResults;
   } catch (error) {
     console.error("Error searching:", error);
