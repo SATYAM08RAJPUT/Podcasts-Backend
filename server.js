@@ -755,91 +755,139 @@ const PodcastAllCategory = mongoose.model(
 
 const SideBarItemSchema = mongoose.model("sidebaritems", SideBarItemSchemas);
 
+// const searchPodcasts = async (query) => {
+//   try {
+//     const podcastResults = await PodcastTreding.find({
+//       $text: { $search: query },
+//     });
+
+//     const webbyAwardsResults = await Webbyawards.find({
+//       $text: { $search: query },
+//     });
+
+//     const rajshamiouterResults = await RajShamiOuter.find({
+//       $text: { $search: query },
+//     });
+
+//     const underTwentyMinResults = await UnderTwentyMin.find({
+//       $text: { $search: query },
+//     });
+
+//     const podcastStartResults = await PodCastStart.find({
+//       $text: { $search: query },
+//     });
+
+//     const disCoverCarouselResults = await DisCoverCarousel.find({
+//       $text: { $search: query },
+//     });
+
+//     const bharthiTvOuterResults = await BhartiTvOuters.find({
+//       $text: { $search: query },
+//     });
+
+//     const bharthiTvinnersResults = await BhartiTvInnrers.find({
+//       $text: { $search: query },
+//     });
+
+//     const ranveerallahbadiainnersResults = await Ranveerallahbadiainner.find({
+//       $text: { $search: query },
+//     });
+
+//     const ranveerallahbadiaoutersResults = await Ranveerallahbadiaouter.find({
+//       $text: { $search: query },
+//     });
+
+//     const rajShamiInnersResults = await Rajshamaninner.find({
+//       $text: { $search: query },
+//     });
+
+//     const discovertrendinginnersResults = await Discovertrendinginner.find({
+//       $text: { $search: query },
+//     });
+
+//     const webbyawardwinnerinnerResults = await Webbyawardwinnerinner.find({
+//       $text: { $search: query },
+//     });
+
+//     const under20mmininnerResults = await Under20mmininner.find({
+//       $text: { $search: query },
+//     });
+
+//     const podcastStaredKitInnerResults = await PodcastStaredKitInner.find({
+//       $text: { $search: query },
+//     });
+
+//     const podcastAllCategoryResults = await PodcastAllCategory.find({
+//       $text: { $search: query },
+//     });
+//     const combinedResults = [
+//       ...podcastResults,
+//       ...webbyAwardsResults,
+//       ...rajshamiouterResults,
+//       ...underTwentyMinResults,
+//       ...podcastStartResults,
+//       ...disCoverCarouselResults,
+//       ...bharthiTvOuterResults,
+//       ...bharthiTvinnersResults,
+//       ...ranveerallahbadiainnersResults,
+//       ...ranveerallahbadiaoutersResults,
+//       ...rajShamiInnersResults,
+//       ...discovertrendinginnersResults,
+//       ...webbyawardwinnerinnerResults,
+//       ...under20mmininnerResults,
+//       ...podcastStaredKitInnerResults,
+//       ...podcastAllCategoryResults,
+//     ];
+//     console.log("combine Data:-", combinedResults);
+//     return combinedResults;
+//   } catch (error) {
+//     console.error("Error searching:", error);
+//     return [];
+//   }
+// };
+
 const searchPodcasts = async (query) => {
   try {
-    const podcastResults = await PodcastTreding.find({
-      $text: { $search: query },
-    });
+    const searchQuery = { $text: { $search: query } };
 
-    const webbyAwardsResults = await Webbyawards.find({
-      $text: { $search: query },
-    });
-
-    const rajshamiouterResults = await RajShamiOuter.find({
-      $text: { $search: query },
-    });
-
-    const underTwentyMinResults = await UnderTwentyMin.find({
-      $text: { $search: query },
-    });
-
-    const podcastStartResults = await PodCastStart.find({
-      $text: { $search: query },
-    });
-
-    const disCoverCarouselResults = await DisCoverCarousel.find({
-      $text: { $search: query },
-    });
-
-    const bharthiTvOuterResults = await BhartiTvOuters.find({
-      $text: { $search: query },
-    });
-
-    const bharthiTvinnersResults = await BhartiTvInnrers.find({
-      $text: { $search: query },
-    });
-
-    const ranveerallahbadiainnersResults = await Ranveerallahbadiainner.find({
-      $text: { $search: query },
-    });
-
-    const ranveerallahbadiaoutersResults = await Ranveerallahbadiaouter.find({
-      $text: { $search: query },
-    });
-
-    const rajShamiInnersResults = await Rajshamaninner.find({
-      $text: { $search: query },
-    });
-
-    const discovertrendinginnersResults = await Discovertrendinginner.find({
-      $text: { $search: query },
-    });
-
-    const webbyawardwinnerinnerResults = await Webbyawardwinnerinner.find({
-      $text: { $search: query },
-    });
-
-    const under20mmininnerResults = await Under20mmininner.find({
-      $text: { $search: query },
-    });
-
-    const podcastStaredKitInnerResults = await PodcastStaredKitInner.find({
-      $text: { $search: query },
-    });
-
-    const podcastAllCategoryResults = await PodcastAllCategory.find({
-      $text: { $search: query },
-    });
-    const combinedResults = [
-      ...podcastResults,
-      ...webbyAwardsResults,
-      ...rajshamiouterResults,
-      ...underTwentyMinResults,
-      ...podcastStartResults,
-      ...disCoverCarouselResults,
-      ...bharthiTvOuterResults,
-      ...bharthiTvinnersResults,
-      ...ranveerallahbadiainnersResults,
-      ...ranveerallahbadiaoutersResults,
-      ...rajShamiInnersResults,
-      ...discovertrendinginnersResults,
-      ...webbyawardwinnerinnerResults,
-      ...under20mmininnerResults,
-      ...podcastStaredKitInnerResults,
-      ...podcastAllCategoryResults,
+    const collections = [
+      PodcastTreding,
+      Webbyawards,
+      RajShamiOuter,
+      UnderTwentyMin,
+      PodCastStart,
+      DisCoverCarousel,
+      BhartiTvOuters,
+      BhartiTvInnrers,
+      Ranveerallahbadiainner,
+      Ranveerallahbadiaouter,
+      Rajshamaninner,
+      Discovertrendinginner,
+      Webbyawardwinnerinner,
+      Under20mmininner,
+      PodcastStaredKitInner,
+      PodcastAllCategory,
     ];
-    console.log("combine Data:-", combinedResults);
-    return combinedResults;
+
+    const results = await Promise.all(
+      collections.map((model) => model.find(searchQuery))
+    );
+
+    // Combine all arrays
+    const combinedResults = results.flat();
+
+    // Make unique based on 'title' field (or change to 'name' if needed)
+    const uniqueMap = new Map();
+    for (const item of combinedResults) {
+      const key = item.title || item.name; // change as per your data structure
+      if (!uniqueMap.has(key)) {
+        uniqueMap.set(key, item);
+      }
+    }
+
+    const uniqueResults = Array.from(uniqueMap.values());
+    console.log("Unique Data:", uniqueResults);
+    return uniqueResults;
   } catch (error) {
     console.error("Error searching:", error);
     return [];
